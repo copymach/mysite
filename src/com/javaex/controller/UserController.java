@@ -37,7 +37,6 @@ public class UserController extends HttpServlet {
 			System.out.println("user > joinForm");
 //			http://localhost:8088/mysite/user?action=joinForm
 			
-			
 //			UserDao userDao = new UserDao();
 //			userDao.insert(null);
 			
@@ -134,6 +133,8 @@ public class UserController extends HttpServlet {
 			session.invalidate();
 //			세션 지워서 비우기
 			
+			
+			WebUtil.redirect(request, response, "/mysite/main");
 			
 //			logout 종료
 		} else if ("modifyForm".equals(action)) {
