@@ -136,6 +136,56 @@ public class UserController extends HttpServlet {
 			
 			
 //			logout 종료
+		} else if ("modifyForm".equals(action)) {
+			System.out.println("user > modifyForm 시작 회원정보수정 ");
+			
+//			no 형변환
+			int no = Integer.parseInt(request.getParameter("no"));
+			
+//			숫자로 변경한 no로 대상 식별
+			UserVo userVo = new UserDao().getNo(no);
+			System.out.println("uservo 출력 "+userVo);
+			
+//			Action으로 넘어온 값을 변경시킨후 JSP 페이지로 넘겨주기
+			request.setAttribute("userVo", userVo);
+			
+			
+//			포워드
+			WebUtil.forward(request, response, "/WEB-INF/views/user/modifyForm.jsp");
+
+//			modifyForm 종료
+		} else if ("modify".equals(action)) {	
+			System.out.println("user > modify 시작 ");
+			
+// 수정폼에서 입력확인 modify?password=22&name=22&gender=female
+			
+//			파라미터 4개를 꺼내온다
+			String no = request.getParameter("no");
+//			String id = request.getParameter("id");
+			String password = request.getParameter("password");
+			String name = request.getParameter("name");
+			String gender = request.getParameter("gender");			
+
+//			no 형변환
+			int userNo = Integer.parseInt(request.getParameter("no"));
+			
+//			vo 만들기
+			UserVo userVo = new UserVo(userNo, password, name, gender);
+			
+//			userVo에 잘 담기는지 확인
+			System.out.println(userVo);
+			
+//			다오를 불러온다
+			UserDao userDao = new UserDao();
+			
+//			다오 속에 쿼리 넣어 수정 처리
+			userDao.UserUpdate(userVo);
+			
+			
+//			리다이렉트 - 포워드 방식 쓰면 에러남
+			WebUtil.redirect(request, response, "/mysite/main");
+			
+//			modify 종료
 		} else {
 			System.out.println("파라미터가 잘못 되었습니다.");
 

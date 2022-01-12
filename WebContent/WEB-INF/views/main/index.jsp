@@ -5,7 +5,6 @@
     
 <%
 	UserVo authUser = (UserVo)session.getAttribute("authUser");
-
 %>
 
 <!DOCTYPE html>
@@ -39,9 +38,10 @@
 
 				
 			<ul>
+			<!-- 세션에서 갱신한 이름을 가져와보자 -->
 				<li> <%=authUser.getName() %> 님 안녕하세요^^</li>
 				<li><a href="/mysite/user?action=logout" class="btn_s">로그아웃</a></li>
-				<li><a href="" class="btn_s">회원정보수정</a></li>
+				<li><a href="/mysite/user?action=modifyForm&no=<%=authUser.getNo() %>" class="btn_s">회원정보수정</a></li>
 			</ul>
 			
 			

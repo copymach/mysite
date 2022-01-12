@@ -153,6 +153,99 @@ public class UserDao {
 		
 	} // getUser 종료
 	
+	//수정(modifyForm)에서 사용할 getNo
+	public UserVo getNo(int index) {
+		UserVo userVo = new UserVo();
+		
+		getConnection();
+	
+	try {
+		String query = "";
+		query += " select  no ";
+		query += " 			,id ";
+		query += " 			,password ";
+		query += " 			,name ";
+		query += "			,gender ";
+		query += " from users ";
+		query += " where no = ? ";
+	
+		System.out.println(query);
+	
+	//	문자열을 쿼리문으로 만들기
+		pstmt = conn.prepareStatement(query);
+	
+	//	바인딩
+		pstmt.setInt(1, index);
+	
+	//	실행
+		rs = pstmt.executeQuery();
+	
+		while (rs.next() == true) {
+			int no = rs.getInt("no");
+			String id = rs.getString("id");
+			String password = rs.getString("password");
+			String name = rs.getString("name");
+			String gender = rs.getString("gender");
+	
+			userVo.setNo(no);
+			userVo.setId(id);
+			userVo.setPassword(password);
+			userVo.setName(name);
+			userVo.setGender(gender);
+			
+		}
+	
+	} catch (SQLException e) {
+		System.out.println("error:" + e);
+	}
+	
+	//5.자원 닫기
+	close();
+	return userVo;
+		
+	} // getNo 종료 
+	
+	
+//	수정 정보 쿼리 입력
+	public void UserUpdate(UserVo userVo) {
+	
+		getConnection();
+	
+		try {
+
+			// 3. SQL문 준비 / 바인딩 / 실행
+			String query = "";
+			query += " update users ";
+			query += " set	name = ? ";
+			query += " 		, password = ? ";
+			query += " 		, gender = ? ";
+			query += " where no = ? ";
+			
+
+//			문자열을 쿼리문으로 만들기
+			pstmt = conn.prepareStatement(query);
+
+//			바인딩
+			pstmt.setString(1, userVo.getName());
+			pstmt.setString(2, userVo.getPassword());
+			pstmt.setString(3, userVo.getGender());
+			pstmt.setInt(4, userVo.getNo());
+
+//			실행
+			int count = pstmt.executeUpdate();
+
+			System.out.println(count + "건이 수정 되었습니다.");
+
+			// 4.결과처리
+
+		} catch (SQLException e) {
+			System.out.println("error:" + e);
+		}
+
+		// 5. 자원정리
+		close();
+		
+	} // UserUpdate 종료
 	
 	
 }
