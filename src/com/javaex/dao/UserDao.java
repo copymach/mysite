@@ -103,6 +103,56 @@ public class UserDao {
 		
 	} // insert 종료
 	
+//	회원정보 1명 가져오기 (로그인용)
+	public UserVo getUser(String id , String password) {
+
+		getConnection();
+		UserVo userVo = null;
+			
+		try {
+			
+//		sql문 준비 바인딩 실행
+//		문자열
+		String query = "";
+		query += " select	no ";
+		query += " 			,name "; 
+		query += " from users "; 
+		query += " where id = ? "; 
+		query += " and password = ?	"; 
+
+//		sql 쿼리
+		pstmt = conn.prepareStatement(query);
+		
+//		바인딩
+		pstmt.setString(1, id);
+		pstmt.setString(2, password);
+        
+//		실행 
+		rs = pstmt.executeQuery(); 
+		
+//			결과처리
+			while(rs.next()) {
+				
+				int no = rs.getInt("no");
+				String name = rs.getString("name");
+				
+				userVo = new UserVo();
+				userVo.setNo(no);
+				userVo.setName(name);
+				
+			} // while 종료
+		
+		} catch (SQLException e) {
+			System.out.println("error:" + e);
+		}
+	
+		// 5. 자원정리
+		close();
+		
+		return userVo;
+		
+	} // getUser 종료
+	
 	
 	
 }

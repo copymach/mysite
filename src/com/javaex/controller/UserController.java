@@ -1,7 +1,6 @@
 package com.javaex.controller;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -9,6 +8,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.javaex.dao.GuestbookDao;
 import com.javaex.dao.UserDao;
@@ -97,8 +97,50 @@ public class UserController extends HttpServlet {
 //			포워드
 			WebUtil.forward(request, response, "/WEB-INF/views/guestbook/addList.jsp");
 			
+		} else if ("login".equals(action)) {
+			System.out.println(" user > login 시작 ");
+			
+			String id = request.getParameter("id");
+			String password = request.getParameter("password");
+			
+//			id password 잘 들어오는지 확인
+			System.out.println("1차확인 id password "+id + password);
+			
+			UserDao userDao = new UserDao();
+			UserVo authVo = userDao.getUser(id, password);
+			
+//			userVo 가 제대로 오는지 확인
+			System.out.println("2차확인 userVo "+authVo);
+			
+			if(authVo == null) { //로그인실패
+				System.out.println(" 3차 로그인 실패 ");
+				WebUtil.redirect(request, response, "/mysite/user?action=loginForm&result=fail");
+			} else { // 로그인 성공
+				System.out.println(" 3차 로그인 성공 ");
+				
+				HttpSession session = request.getSession();
+				session.setAttribute("authUser", authVo);
+				
+				WebUtil.redirect(request, response, "/mysite/main");
+				
+			}
+			
+//			login 종료
+		} else if ("logout".equals(action)) {
+			System.out.println("user > logout 실행 ");
+			
+			HttpSession session = request.getSession();
+			session.removeAttribute("authUser");
+			session.invalidate();
+//			세션 지워서 비우기
+			
+			
+//			logout 종료
 		} else {
 			System.out.println("파라미터가 잘못 되었습니다.");
+
+//			포워드
+			WebUtil.forward(request, response, "/WEB-INF/views/guestbook/addList.jsp");
 			
 		} // else 종료
 		 
