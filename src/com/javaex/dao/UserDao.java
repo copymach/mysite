@@ -248,5 +248,55 @@ public class UserDao {
 	} // UserUpdate 종료
 	
 	
+//	no 값으로 모든 정보를 알 수 있는 메서드
+	public UserVo getUserInfo(int index) {
+		
+		UserVo userVo = null;
+
+		getConnection();
+
+		try {
+
+			String query ="";
+			query += " select no  ";
+			query += " 		  ,id ";
+			query += " 		  ,password ";
+			query += " 		  ,name ";
+			query += " 		  ,gender ";
+			query += " from users ";
+			query += " where no = ? ";
+
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, index);    
+			
+			rs = pstmt.executeQuery();
+			
+			while (rs.next() == true) {
+				int no = rs.getInt(1);
+				String id = rs.getString(2);
+				String password = rs.getString(3);
+				String name = rs.getString(4);
+				String gender = rs.getString(5);
+		
+				userVo.setNo(no);
+				userVo.setId(id);
+				userVo.setPassword(password);
+				userVo.setName(name);
+				userVo.setGender(gender);
+				
+				userVo = new UserVo(no, id, password, name, gender);
+			}
+			
+		} catch (SQLException e) {
+			System.out.println("error:" + e);
+		} 
+		
+		close();
+		
+		return userVo; 
+	} // getUserInfo 종료 
+	
+	
+	
 }
 

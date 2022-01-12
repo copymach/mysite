@@ -137,8 +137,9 @@ public class UserController extends HttpServlet {
 			WebUtil.redirect(request, response, "/mysite/main");
 			
 //			logout 종료
+			
 		} else if ("modifyForm".equals(action)) {
-			System.out.println("user > modifyForm 시작 회원정보수정 ");
+			System.out.println("user > modifyForm 시작 세션활용 ");
 			
 //			no 형변환
 			int no = Integer.parseInt(request.getParameter("no"));
@@ -150,10 +151,22 @@ public class UserController extends HttpServlet {
 //			Action으로 넘어온 값을 변경시킨후 JSP 페이지로 넘겨주기
 			request.setAttribute("userVo", userVo);
 			
+			/* 
+			HttpSession session = request.getSession();
+			
+//			세션 authUser를 생성
+			UserVo authUser = (UserVo)session.getAttribute("authUser");
+			
+//			no 번호로 모든 정보를 조회하는 메서드
+			UserVo userInfo = new UserDao().getUserInfo(authUser.getNo());		
+			
+//			유저정보를 담은 속성 (어트리뷰트) 설정
+			request.setAttribute("userInfo", userInfo);
+			*/
 			
 //			포워드
-			WebUtil.forward(request, response, "/WEB-INF/views/user/modifyForm.jsp");
-
+			WebUtil.forward(request, response, "WEB-INF/views/user/modifyForm.jsp");
+			
 //			modifyForm 종료
 		} else if ("modify".equals(action)) {	
 			System.out.println("user > modify 시작 ");

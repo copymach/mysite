@@ -4,11 +4,9 @@
 <%@ page import ="com.javaex.vo.UserVo" %>
     
 <%
-	UserVo authUser = (UserVo)session.getAttribute("authUser");
-
+UserVo authUser = (UserVo)session.getAttribute("authUser");
 //Action으로 넘어온 값을 변경시킨후 JSP 페이지로 받아오기
 UserVo userVo = (UserVo)request.getAttribute("userVo");
-
 %>
 
 <!DOCTYPE html>
@@ -39,7 +37,6 @@ UserVo userVo = (UserVo)request.getAttribute("userVo");
 				
 				
 			<% } else { // 로그인 성공 %>
-
 				
 			<ul>
 			<!-- 세션에서 갱신한 이름을 가져와보자 -->
@@ -53,7 +50,6 @@ UserVo userVo = (UserVo)request.getAttribute("userVo");
 			
 		</div>
 		<!-- //header -->
-
 		<div id="nav">
 			<ul class="clearfix">
 				<li><a href="">입사지원서</a></li>
@@ -63,7 +59,6 @@ UserVo userVo = (UserVo)request.getAttribute("userVo");
 			</ul>
 		</div>
 		<!-- //nav -->
-
 		<div id="container" class="clearfix">
 			<div id="aside">
 				<h2>회원</h2>
@@ -74,7 +69,6 @@ UserVo userVo = (UserVo)request.getAttribute("userVo");
 				</ul>
 			</div>
 			<!-- //aside -->
-
 			<div id="content">
 			
 				<div id="content-head">
@@ -123,8 +117,8 @@ UserVo userVo = (UserVo)request.getAttribute("userVo");
 								<input type="radio" id="rdo-female" name="gender" value="female" > 
 	
 							</div>
-							<input type="text" name="no" value="<%=authUser.getNo() %>">
-							<input type="text" name="action" value="modify"> 
+							<input type="text" name="no" value="<%=authUser.getNo() %>" readonly>
+							<input type="text" name="action" value="modify" readonly> 
 							<!-- 버튼영역 -->
 							<div class="button-area">
 								<button type="submit" id="btn-submit">회원정보수정</button>
