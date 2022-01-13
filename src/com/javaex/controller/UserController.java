@@ -171,11 +171,9 @@ public class UserController extends HttpServlet {
 		} else if ("modify".equals(action)) {	
 			System.out.println("user > modify 시작 ");
 			
-// 수정폼에서 입력확인 modify?password=22&name=22&gender=female
-			
 //			파라미터 4개를 꺼내온다
 			String no = request.getParameter("no");
-//			String id = request.getParameter("id");
+			String id = request.getParameter("id");
 			String password = request.getParameter("password");
 			String name = request.getParameter("name");
 			String gender = request.getParameter("gender");			
@@ -184,16 +182,25 @@ public class UserController extends HttpServlet {
 			int userNo = Integer.parseInt(request.getParameter("no"));
 			
 //			vo 만들기
-			UserVo userVo = new UserVo(userNo, password, name, gender);
+			UserVo userVo = new UserVo(userNo, id, password, name, gender);
 			
 //			userVo에 잘 담기는지 확인
-			System.out.println(userVo);
+//			System.out.println(userVo);
 			
 //			다오를 불러온다
 			UserDao userDao = new UserDao();
 			
 //			다오 속에 쿼리 넣어 수정 처리
 			userDao.UserUpdate(userVo);
+			
+//			세션에 수정한 정보를 넣는다
+			HttpSession session = request.getSession();
+			
+//			UserVo authVo = new UserDao().getUser(id, password);
+//			System.out.println("authVo 출력 "+authVo);
+			
+//			userVo를 그대로 집어넣으니 비번 유출등이 걱정된다 괜찮을까? 다른 방법이 없을까?
+			session.setAttribute("authUser", userVo);
 			
 			
 //			리다이렉트 - 포워드 방식 쓰면 에러남
