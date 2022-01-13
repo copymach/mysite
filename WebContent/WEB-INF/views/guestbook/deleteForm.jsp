@@ -1,11 +1,12 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ page import ="com.javaex.vo.UserVo" %>    
-    <%
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+
+<%@ page import="com.javaex.vo.UserVo"%>
+<%
 //addList 에서 받아온 no를 숫자로 바꿔준다
 String no = request.getParameter("no");
-UserVo authUser = (UserVo)session.getAttribute("authUser");
+UserVo authUser = (UserVo) session.getAttribute("authUser");
 %>
+
 
 <!DOCTYPE html>
 <html>
@@ -20,44 +21,10 @@ UserVo authUser = (UserVo)session.getAttribute("authUser");
 <body>
 	<div id="wrap">
 
-		<div id="header" class="clearfix">
-			<h1>
-				<a href="/mysite/main">MySite</a>
-			</h1>
-
-			<%if(authUser == null ) { // 세션 영역에 값이 없으면 로그인 실패, 로그인 전 %>
-				
-				
-			<ul>
-				<li><a href="/mysite/user?action=loginForm" class="btn_s">로그인</a></li>
-				<li><a href="/mysite/user?action=joinForm" class="btn_s">회원가입</a></li>
-			</ul>
-				
-				
-			<% } else { // 로그인 성공 %>
-
-				
-			<ul>
-			<!-- 세션에서 갱신한 이름을 가져와보자 -->
-				<li> <%=authUser.getName() %> 님 안녕하세요^^</li>
-				<li><a href="/mysite/user?action=logout" class="btn_s">로그아웃</a></li>
-				<li><a href="/mysite/user?action=modifyForm&no=<%=authUser.getNo() %>" class="btn_s">회원정보수정</a></li>
-			</ul>
-			
-			
-			<% } %>
-			
-		</div>
 		<!-- //header -->
 
-		<div id="nav">
-			<ul class="clearfix">
-				<li><a href="">입사지원서</a></li>
-				<li><a href="">게시판</a></li>
-				<li><a href="">갤러리</a></li>
-				<li><a href="">방명록</a></li>
-			</ul>
-		</div>
+		<jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
+
 		<!-- //nav -->
 
 		<div id="container" class="clearfix">
@@ -71,7 +38,7 @@ UserVo authUser = (UserVo)session.getAttribute("authUser");
 			<!-- //aside -->
 
 			<div id="content">
-			
+
 				<div id="content-head">
 					<h3>일반방명록</h3>
 					<div id="location">
@@ -84,7 +51,7 @@ UserVo authUser = (UserVo)session.getAttribute("authUser");
 					<div class="clear"></div>
 				</div>
 				<!-- //content-head -->
-	
+
 				<div id="guestbook">
 					<form action="/mysite/guest" method="get">
 						<table id="guestDelete">
@@ -96,15 +63,21 @@ UserVo authUser = (UserVo)session.getAttribute("authUser");
 							</colgroup>
 							<tr>
 								<td>비밀번호</td>
-								<td><input type="password" name="password"></td>
-								<td class="text-left"><button type="submit">삭제</button></td>
-								<td><a href="/mysite/main">[메인으로 돌아가기]</a></td>
+								<td>
+									<input type="password" name="password">
+								</td>
+								<td class="text-left">
+									<button type="submit">삭제</button>
+								</td>
+								<td>
+									<a href="/mysite/main">[메인으로 돌아가기]</a>
+								</td>
 							</tr>
 						</table>
 						<input type='hidden' name="no" value="<%=no%>">
 						<input type='hidden' name="action" value="delete">
 					</form>
-					
+
 				</div>
 				<!-- //guestbook -->
 			</div>
@@ -112,10 +85,9 @@ UserVo authUser = (UserVo)session.getAttribute("authUser");
 
 		</div>
 		<!-- //container  -->
-		
-		<div id="footer">
-			Copyright ⓒ 2020 황일영. All right reserved
-		</div>
+
+		<jsp:include page="/WEB-INF/views/include/footer.jsp"></jsp:include>
+
 		<!-- //footer -->
 
 	</div>

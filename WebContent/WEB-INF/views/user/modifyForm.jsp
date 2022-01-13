@@ -22,43 +22,12 @@ UserVo userVo = (UserVo)request.getAttribute("userVo");
 <body>
 	<div id="wrap">
 
-		<div id="header" class="clearfix">
-			<h1>
-				<a href="/mysite/main">MySite</a>
-			</h1>
-
-			<%if(authUser == null ) { // 세션 영역에 값이 없으면 로그인 실패, 로그인 전 %>
-				
-				
-			<ul>
-				<li><a href="/mysite/user?action=loginForm" class="btn_s">로그인</a></li>
-				<li><a href="/mysite/user?action=joinForm" class="btn_s">회원가입</a></li>
-			</ul>
-				
-				
-			<% } else { // 로그인 성공 %>
-				
-			<ul>
-			<!-- 세션에서 갱신한 이름을 가져와보자 -->
-				<li> <%=authUser.getName() %> 님 안녕하세요^^</li>
-				<li><a href="/mysite/user?action=logout" class="btn_s">로그아웃</a></li>
-				<li><a href="/mysite/user?action=modifyForm&no=<%=authUser.getNo() %>" class="btn_s">회원정보수정</a></li>
-			</ul>
-			
-			
-			<% } %>
-			
-		</div>
 		<!-- //header -->
-		<div id="nav">
-			<ul class="clearfix">
-				<li><a href="">입사지원서</a></li>
-				<li><a href="">게시판</a></li>
-				<li><a href="">갤러리</a></li>
-				<li><a href="">방명록</a></li>
-			</ul>
-		</div>
+		
+		<jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
+
 		<!-- //nav -->
+		
 		<div id="container" class="clearfix">
 			<div id="aside">
 				<h2>회원</h2>
@@ -137,9 +106,8 @@ UserVo userVo = (UserVo)request.getAttribute("userVo");
 		</div>
 		<!-- //container  -->
 
-		<div id="footer">
-			Copyright ⓒ 2020 황일영. All right reserved
-		</div>
+		<jsp:include page="/WEB-INF/views/include/footer.jsp"></jsp:include>
+		
 		<!-- //footer -->
 		
 	</div>
