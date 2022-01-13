@@ -49,9 +49,11 @@ public class GuestbookController extends HttpServlet {
 			guestbookDao.ContentInsert(guestbookVo);
 			
 			
-//			리다이렉트
-			WebUtil.redirect(request, response, "/mysite/guest");
+//			리다이렉트 에러
+//			WebUtil.redirect(request, response, "/mysite/guest");
 			
+//			포워드
+			WebUtil.forward(request, response, "/WEB-INF/views/guestbook/addList.jsp");
 			
 //			write 종료
 		} else if ("deleteForm".equals(action)) {
