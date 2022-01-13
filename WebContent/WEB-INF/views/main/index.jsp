@@ -2,7 +2,9 @@
     pageEncoding="UTF-8"%>
 
 <%@ page import ="com.javaex.vo.UserVo" %>
-    
+
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+
 <%
 
 //세션을 이용한 방법 - 이름에 적용하면 왜 에러가 날까
@@ -26,8 +28,8 @@
 	<div id="wrap">
 
 		<!-- //header -->
-		
-		<jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
+		<c:import url="/WEB-INF/views/include/header.jsp"></c:import>
+		<%-- <jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include> --%>
 
 		<!-- //nav -->
 
