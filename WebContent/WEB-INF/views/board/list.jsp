@@ -5,15 +5,15 @@
 <%@ page import="com.javaex.vo.BoardVo"%>
 <%@ page import="com.javaex.vo.UserVo"%>
 
-<% 
+<%
 //System.out.println("Board 게시판 list.jsp 시작"); 동작확인
 
-List<BoardVo> boardList = (List<BoardVo>)request.getAttribute("bList");
+List<BoardVo> boardList = (List<BoardVo>) request.getAttribute("bList");
 
 //System.out.println(boardList); 동작확인
 
-BoardVo authUser = (BoardVo)session.getAttribute("authUser");
-
+//BoardVo authUser = (BoardVo) session.getAttribute("authUser");
+UserVo authUser = (UserVo) session.getAttribute("authUser");
 %>
 
 <!DOCTYPE html>
@@ -31,7 +31,7 @@ BoardVo authUser = (BoardVo)session.getAttribute("authUser");
 	<div id="wrap">
 
 		<!-- //header -->
-		
+
 		<c:import url="/WEB-INF/views/include/header.jsp"></c:import>
 
 		<!-- //nav -->
@@ -60,7 +60,7 @@ BoardVo authUser = (BoardVo)session.getAttribute("authUser");
 					<div class="clear"></div>
 				</div>
 				<!-- //content-head -->
-	
+
 				<div id="board">
 					<div id="list">
 						<form action="/mysite/board" method="get">
@@ -69,7 +69,7 @@ BoardVo authUser = (BoardVo)session.getAttribute("authUser");
 								<button type="submit" id=btn_search>검색</button>
 							</div>
 						</form>
-						<table >
+						<table>
 							<thead>
 								<tr>
 									<th>번호</th>
@@ -80,27 +80,45 @@ BoardVo authUser = (BoardVo)session.getAttribute("authUser");
 									<th>관리</th>
 								</tr>
 							</thead>
-							
+
 							<%-- 나중에 포이치로 구현해보자 <c:forEach items="${boardList}" var="boardVo"> --%>
 							<%
-							for (int i=0; i<boardList.size(); i++) {
+							for (int i = 0; i < boardList.size(); i++) {
 							%>
-							
+
 							<tbody>
 								<tr>
 									<td><%=boardList.get(i).getNo()%></td>
-									<td class="text-left"><a href="/mysite/board?action=read&no=<%=boardList.get(i).getNo()%> "> <%=boardList.get(i).getTitle() %></a></td>
+									<td class="text-left"><a href="/mysite/board?action=read&no=<%=boardList.get(i).getNo()%> "> <%=boardList.get(i).getTitle()%></a></td>
 									<td><%=boardList.get(i).getUser_name()%> 유저번호:<%=boardList.get(i).getUser_no()%></td>
 									<td><%=boardList.get(i).getHit()%></td>
-									<td><%=boardList.get(i).getReg_date()%> </td>
-									<td><a href="">[삭제]</a></td>
+									<td><%=boardList.get(i).getReg_date()%></td>
+									<td>
+									<c:choose>
+										<c:when test="${empty sessionScope.authUser}">
+											<!-- 세션 영역에 값이 없으면 로그인 실패, 로그인 전에 사용 -->
+											<ul>
+												<li> [ - ] </li>
+											</ul>
+										</c:when>
+
+										<c:otherwise>
+											<!-- 로그인 성공시 출력 -->
+											<ul>
+												<a href="/mysite/board?action=delete&no=<%=boardList.get(i).getNo()%>&userNo=<%=boardList.get(i).getUser_no() %>">[삭제]</a>
+											</ul>
+										</c:otherwise>
+									</c:choose>
+									</td>
 								</tr>
 							</tbody>
-							<% } %>
+							<%
+							}
+							%>
 
-							
+
 						</table>
-			
+
 						<div id="paging">
 							<ul>
 								<li><a href="">◀</a></li>
@@ -116,12 +134,12 @@ BoardVo authUser = (BoardVo)session.getAttribute("authUser");
 								<li><a href="">10</a></li>
 								<li><a href="">▶</a></li>
 							</ul>
-							
-							
+
+
 							<div class="clear"></div>
 						</div>
 						<a id="btn_write" href="">글쓰기</a>
-					
+
 					</div>
 					<!-- //list -->
 				</div>
@@ -131,9 +149,9 @@ BoardVo authUser = (BoardVo)session.getAttribute("authUser");
 
 		</div>
 		<!-- //container  -->
-		
+
 		<c:import url="/WEB-INF/views/include/footer.jsp"></c:import>
-		
+
 		<!-- //footer -->
 	</div>
 	<!-- //wrap -->

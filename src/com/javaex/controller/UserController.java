@@ -23,7 +23,6 @@ public class UserController extends HttpServlet {
     public UserController() {
 //    	기본생성자
     }
-    
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		System.out.println("/user 시작");
@@ -35,10 +34,6 @@ public class UserController extends HttpServlet {
 		
 		if ("joinForm".equals(action)) {
 			System.out.println("user > joinForm");
-//			http://localhost:8088/mysite/user?action=joinForm
-			
-//			UserDao userDao = new UserDao();
-//			userDao.insert(null);
 			
 //			포워드
 			WebUtil.forward(request, response, "/WEB-INF/views/user/joinForm.jsp");
@@ -146,7 +141,7 @@ public class UserController extends HttpServlet {
 			
 //			숫자로 변경한 no로 대상 식별
 			UserVo userVo = new UserDao().getNo(no);
-			System.out.println("uservo 출력 "+userVo);
+			System.out.println("userVo 출력 "+userVo);
 			
 //			Action으로 넘어온 값을 변경시킨후 JSP 페이지로 넘겨주기
 			request.setAttribute("userVo", userVo);

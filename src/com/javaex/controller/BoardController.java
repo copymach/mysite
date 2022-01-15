@@ -34,7 +34,12 @@ public class BoardController extends HttpServlet {
 			int ContentNo = Integer.parseInt(request.getParameter("no"));
 			
 //			해당 게시물 no로 대상 식별
-			BoardVo boardVo = new BoardDao().read(ContentNo); 
+			
+//			카운터			
+			new BoardDao().hitCount(ContentNo);
+			
+//			게시물 불러오기
+			BoardVo boardVo = new BoardDao().readContent(ContentNo); 
 			System.out.println("boardcontroller > boardVo 출력 "+boardVo);
 			
 //			Action으로 넘어온 값을 변경시킨후 JSP 페이지로 넘겨주기
@@ -43,21 +48,34 @@ public class BoardController extends HttpServlet {
 //			포워드
 			WebUtil.forward(request, response, "/WEB-INF/views/board/read.jsp");
 		
+		} else if ("delete".equals(action)) {
+			System.out.println(" board > delete 시작 ");
+//			user_no하고 게시물 no가 일치하면 삭제
+			
+//			게시물번호 가져오고
+			int no = Integer.parseInt(request.getParameter("no"));
+			int userNo = Integer.parseInt(request.getParameter("userNo"));
+			
+			System.out.println("게시물번호 출력 "+no+userNo);
+			
+			BoardDao boardDao = new BoardDao();
+//			boardDao.deleteContent(no);
+			
+//			포워드
+			WebUtil.forward(request, response, "/WEB-INF/views/board/list.jsp");			
+			
 		} else if ("writeForm".equals(action)) {
 			System.out.println(" board > writeForm 시작 ");
 			
 		} else if ("write".equals(action)) {
 			System.out.println(" board > write 시작 ");
 			
-		} else if ("delete".equals(action)) {
-			System.out.println(" board > delete 시작 ");
-			
-		} else if ("read".equals(action)) {
-			
 		} else if ("modifyForm".equals(action)) {
-			System.out.println(" board > modifyForm 시작 ");
 			
 		} else if ("modify".equals(action)) {
+			System.out.println(" board > modifyForm 시작 ");
+			
+		} else if ("dev".equals(action)) {
 			System.out.println(" board > modify 시작 ");
 			
 		} else {

@@ -119,7 +119,7 @@ public class BoardDao {
 		return boardList;
 	} // getList 종료
 	
-	public BoardVo read(int index) {
+	public BoardVo readContent(int index) {
 
 		BoardVo boardVo = null;
 		
@@ -183,15 +183,14 @@ public class BoardDao {
 	} // read 종료
 	
 	
-	public BoardVo hit (int index) {
+	public void hitCount (int index) {
 
-		BoardVo boardVo = new BoardVo();
-//		System.out.println("getContent boardVo 출력 "+boardVo);
-		
-		getConnection();
+		BoardVo hitCount = null;
 
 		try {
 
+			getConnection();
+			
 //			hit가 필드가 varchar 타입인 경우 TO_NUMBER로 캐스팅 
 //			NOT NULL 허용일 경우 NVL로 NULL값을 0으로 치환 대응 -Tibero
 
@@ -200,22 +199,23 @@ public class BoardDao {
 			query += " set HIT = NVL(HIT, 0) + 1 ";
 			query += " WHERE board.no = ? ";
 			
-			
 			System.out.println(query);
 
-//			문자열을 쿼리문으로 만들기
+//			문자열 쿼리문으로 만들기
 			pstmt = conn.prepareStatement(query);
-
+			
 //			바인딩
 			pstmt.setInt(1, index);
 
-//			실행
+//			실행 rs = result select
 			rs = pstmt.executeQuery();
-		 
-			while (rs.next()) {
-				int hit = rs.getInt("hid");
 
-				boardVo.setHit(hit);
+			// 4.결과처리 next는 자체적으로 불린 값을 가지고 있다 (rs.next() == true)
+			while (rs.next()) {
+				int hit = rs.getInt("hit");
+
+				hitCount.setHit(hit);
+				System.out.println("boardVo 카운터 "+hitCount);
 				
 			}
 		} catch (SQLException e) {
@@ -224,9 +224,40 @@ public class BoardDao {
 
 //		5.자원 닫기
 		close();
-		return boardVo;
 		
 	} // hit 종료
+	
+	public void deleteContent(int no, int userNo) {
+		
+		try {
+			getConnection();
+
+			// 3. SQL문 준비 / 바인딩 / 실행
+			String query = "";
+			query += " DELETE FROM board ";
+			query += " WHERE board.no = ? ";
+			query += " and board.user_no = ? ";
+			
+			System.out.println(query + " 글 삭제 처리중");
+
+//			문자열을 쿼리문으로 만들기
+			pstmt = conn.prepareStatement(query);
+
+//			바인딩
+			pstmt.setInt(1, no);
+			pstmt.setInt(2, userNo);
+			
+//			실행
+			pstmt.executeUpdate();
+
+		} catch (SQLException e) {
+			System.out.println("error:" + e);
+		}
+
+//		5.자원 닫기
+		close();
+		
+	} // deleteContent 종료
 	
 	
 	
