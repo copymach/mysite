@@ -3,7 +3,6 @@ package com.javaex.controller;
 import java.io.IOException;
 import java.util.List;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -28,7 +27,23 @@ public class BoardController extends HttpServlet {
 		
 		String action = request.getParameter("action");
 		
-		if ("writeForm".equals(action)) {
+		if ("read".equals(action)) {
+			System.out.println(" board > read 시작 ");
+			
+//			list로부터 게시판 no를 받는다
+			int ContentNo = Integer.parseInt(request.getParameter("no"));
+			
+//			해당 게시물 no로 대상 식별
+			BoardVo boardVo = new BoardDao().read(ContentNo); 
+			System.out.println("boardcontroller > boardVo 출력 "+boardVo);
+			
+//			Action으로 넘어온 값을 변경시킨후 JSP 페이지로 넘겨주기
+			request.setAttribute("bdVo", boardVo);
+			
+//			포워드
+			WebUtil.forward(request, response, "/WEB-INF/views/board/read.jsp");
+		
+		} else if ("writeForm".equals(action)) {
 			System.out.println(" board > writeForm 시작 ");
 			
 		} else if ("write".equals(action)) {
@@ -38,23 +53,6 @@ public class BoardController extends HttpServlet {
 			System.out.println(" board > delete 시작 ");
 			
 		} else if ("read".equals(action)) {
-			System.out.println(" board > read 시작 ");
-			
-//			list로부터 게시판 no를 받는다
-			int ContentNo = Integer.parseInt(request.getParameter("no"));
-			
-//			해당 게시물 no로 대상 식별
-			BoardVo boardVo = new BoardDao().getContent(ContentNo); 
-			System.out.println("boardcontroller > boardVo 출력 "+boardVo);
-			
-//			Action으로 넘어온 값을 변경시킨후 JSP 페이지로 넘겨주기
-			request.setAttribute("bdVo", boardVo);
-			
-//			포워드
-			WebUtil.forward(request, response, "/WEB-INF/views/board/read.jsp");
-			
-			
-//			no를 잘 받아온다 read 메서드
 			
 		} else if ("modifyForm".equals(action)) {
 			System.out.println(" board > modifyForm 시작 ");

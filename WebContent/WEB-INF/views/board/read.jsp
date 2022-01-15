@@ -65,7 +65,7 @@ System.out.println("boardVo 출력 "+boardVo);
 							<!-- 작성자 -->
 							<div class="form-group">
 								<span class="form-text">작성자</span>
-								<span class="form-value"><%=boardVo.getUser_name() %></span>
+								<span class="form-value"><%=boardVo.getUser_name() %> <%=boardVo.getUser_no() %></span>
 							</div>
 							
 							<!-- 조회수 -->

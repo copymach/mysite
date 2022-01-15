@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.javaex.vo.BoardVo;
-import com.javaex.vo.PersonVo;
 
 public class BoardDao {
 
@@ -98,7 +97,7 @@ public class BoardDao {
 				String content = rs.getString("content");
 				int hit = rs.getInt("hit");
 				String regDate = rs.getString("regDate");
-				String userNo = rs.getString("user_no");
+				int userNo = rs.getInt("user_no");
 				String uname = rs.getString("uname");
 				
 				//컨텐츠 공백 띄어쓰기 입출력 개선
@@ -120,14 +119,14 @@ public class BoardDao {
 		return boardList;
 	} // getList 종료
 	
-	public BoardVo getContent(int index) {
+	public BoardVo read(int index) {
 
-		BoardVo boardVo = new BoardVo();
-//		System.out.println("getContent boardVo 출력 "+boardVo);
+		BoardVo boardVo = null;
 		
-		getConnection();
-
 		try {
+			
+			getConnection();
+			
 			// 3. SQL문 준비 / 바인딩 / 실행
 			String query = "";
 			query += " select  bd.no bno ";
@@ -140,7 +139,7 @@ public class BoardDao {
 			query += " 			,user_no ";
 			query += " from board bd, users ur ";
 			query += " where bd.user_no = ur.no ";
-			query += " and ur.no = ? ";
+			query += " and bd.no = ? ";
 			
 			System.out.println(query + " 리스트 작성중");
 
@@ -160,24 +159,16 @@ public class BoardDao {
 				String content = rs.getString("content");
 				int hit = rs.getInt("hit");
 				String regDate = rs.getString("regDate");
-				String userNo = rs.getString("user_no");
+				int userNo = rs.getInt("user_no");
 				String uname = rs.getString("uname");
 				
 				//컨텐츠 공백 띄어쓰기 입출력 개선
 				content = content.replace(" ", "&nbsp;");
 				content = content.replace("\n", "<br>");
 
-//				BoardVo boardVo = new BoardVo(no, title, content, hit, regDate, userNo, uname);
+				boardVo = new BoardVo(no, title, content, hit, regDate, userNo, uname);
 				
-				boardVo.setNo(no);
-				boardVo.setTitle(title);
-				boardVo.setContent(content);
-				boardVo.setHit(hit);
-				boardVo.setReg_date(regDate);
-				boardVo.setUser_no(userNo);
-				boardVo.setUser_name(uname);
-				
-//				BoardVo bo = new BoardVo(no, title, content, hit, regDate, userNo, uname);
+				System.out.println("boardVo 출력 "+boardVo);
 				
 			} 
 
@@ -189,7 +180,7 @@ public class BoardDao {
 		close();
 
 		return boardVo;
-	} // getContent 종료
+	} // read 종료
 	
 	
 	public BoardVo hit (int index) {
@@ -200,12 +191,16 @@ public class BoardDao {
 		getConnection();
 
 		try {
-			// 3. SQL문 준비 / 바인딩 / 실행
+
+//			hit가 필드가 varchar 타입인 경우 TO_NUMBER로 캐스팅 
+//			NOT NULL 허용일 경우 NVL로 NULL값을 0으로 치환 대응 -Tibero
+
 			String query = "";
 			query += " UPDATE board ";
 			query += " set HIT = NVL(HIT, 0) + 1 ";
 			query += " WHERE board.no = ? ";
-	
+			
+			
 			System.out.println(query);
 
 //			문자열을 쿼리문으로 만들기
