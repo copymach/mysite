@@ -102,7 +102,7 @@ public class GuestbookController extends HttpServlet {
 	} // doGet 종료
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+		request.setCharacterEncoding("UTF-8");
 		
 		doGet(request, response);
 	} // doPost 종료
