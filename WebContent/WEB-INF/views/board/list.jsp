@@ -88,28 +88,26 @@ UserVo authUser = (UserVo) session.getAttribute("authUser");
 
 							<tbody>
 								<tr>
-									<td><%=boardList.get(i).getNo()%></td>
-									<td class="text-left"><a href="/mysite/board?action=read&no=<%=boardList.get(i).getNo()%> "> <%=boardList.get(i).getTitle()%></a></td>
-									<td><%=boardList.get(i).getUser_name()%> 유저번호:<%=boardList.get(i).getUser_no()%></td>
+									<td><%=boardList.get(i).getBno()%></td>
+									<td class="text-left"><a href="/mysite/board?action=read&no=<%=boardList.get(i).getBno()%> "> <%=boardList.get(i).getTitle()%></a></td>
+									<td><%=boardList.get(i).getId()%> [<%=boardList.get(i).getUser_name()%>§<%=boardList.get(i).getUno()%>]</td>
 									<td><%=boardList.get(i).getHit()%></td>
 									<td><%=boardList.get(i).getReg_date()%></td>
-									<td>
-									<c:choose>
-										<c:when test="${empty sessionScope.authUser}">
-											<!-- 세션 영역에 값이 없으면 로그인 실패, 로그인 전에 사용 -->
-											<ul>
-												<li> [ - ] </li>
-											</ul>
-										</c:when>
+									<td><c:choose>
+											<c:when test="${empty sessionScope.authUser}">
+												<!-- 세션 영역에 값이 없으면 로그인 실패, 로그인 전에 사용 -->
+												<ul>
+													<li>[ - ]</li>
+												</ul>
+											</c:when>
 
-										<c:otherwise>
-											<!-- 로그인 성공시 출력 -->
-											<ul>
-												<a href="/mysite/board?action=delete&no=<%=boardList.get(i).getNo()%>&userNo=<%=boardList.get(i).getUser_no() %>">[삭제]</a>
-											</ul>
-										</c:otherwise>
-									</c:choose>
-									</td>
+											<c:otherwise>
+												<!-- 로그인 성공시 출력 -->
+												<ul>
+													<a href="/mysite/board?action=delete&bno=<%=boardList.get(i).getBno()%>&uno=<%=boardList.get(i).getUno()%>">[삭제]</a>
+												</ul>
+											</c:otherwise>
+										</c:choose></td>
 								</tr>
 							</tbody>
 							<%
@@ -138,7 +136,19 @@ UserVo authUser = (UserVo) session.getAttribute("authUser");
 
 							<div class="clear"></div>
 						</div>
-						<a id="btn_write" href="">글쓰기</a>
+
+						<c:choose>
+							<c:when test="${empty sessionScope.authUser}">
+								<!-- 세션 영역에 값이 없으면 로그인 실패, 로그인 전에 사용 -->
+								&nbsp;
+							</c:when>
+							<c:otherwise>
+								<!-- 로그인 성공시 출력 -->
+								<ul>
+									<a id="btn_write" href="/mysite/board?action=writeForm&uno=<%=authUser.getNo()%>">글쓰기</a>
+								</ul>
+							</c:otherwise>
+						</c:choose>
 
 					</div>
 					<!-- //list -->

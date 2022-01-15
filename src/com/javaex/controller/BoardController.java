@@ -8,10 +8,13 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.javaex.dao.BoardDao;
+import com.javaex.dao.UserDao;
 import com.javaex.util.WebUtil;
 import com.javaex.vo.BoardVo;
+import com.javaex.vo.UserVo;
 
 @WebServlet("/board")
 public class BoardController extends HttpServlet {
@@ -50,25 +53,41 @@ public class BoardController extends HttpServlet {
 		
 		} else if ("delete".equals(action)) {
 			System.out.println(" board > delete 시작 ");
+			
 //			user_no하고 게시물 no가 일치하면 삭제
 			
 //			게시물번호 가져오고
-			int no = Integer.parseInt(request.getParameter("no"));
-			int userNo = Integer.parseInt(request.getParameter("userNo"));
-			
-			System.out.println("게시물번호 출력 "+no+userNo);
+			int no = Integer.parseInt(request.getParameter("bno"));
+			int uno = Integer.parseInt(request.getParameter("uno"));
+			System.out.println("게시물번호 출력 "+no+uno);
 			
 			BoardDao boardDao = new BoardDao();
-//			boardDao.deleteContent(no);
+			boardDao.deleteContent(no, uno);
 			
-//			포워드
-			WebUtil.forward(request, response, "/WEB-INF/views/board/list.jsp");			
+			
+//			포워드방식 사용시 에러
+			WebUtil.redirect(request, response, "/mysite/board");
+//			WebUtil.forward(request, response, "/WEB-INF/views/board/list.jsp");			
 			
 		} else if ("writeForm".equals(action)) {
 			System.out.println(" board > writeForm 시작 ");
 			
+//			포워드
+			WebUtil.forward(request, response, "/WEB-INF/views/board/writeForm.jsp");
+			
 		} else if ("write".equals(action)) {
 			System.out.println(" board > write 시작 ");
+			
+			int uno = Integer.parseInt(request.getParameter("uno"));
+			String title = request.getParameter("title");
+			String content = request.getParameter("content");
+			
+			System.out.println("uno 출력 "+uno);
+			
+			BoardVo boardVo = new BoardVo(uno, title, content);
+			
+//			insertContent
+			
 			
 		} else if ("modifyForm".equals(action)) {
 			

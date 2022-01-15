@@ -72,13 +72,14 @@ public class BoardDao {
 			query += " 			,content ";
 			query += " 			,hit ";
 			query += " 			,to_char(reg_date, 'yyyy-mm-dd hh:mi:ss') regDate ";
-			query += " 			,user_no ";
-			query += " 			,ur.name uname ";
-			query += " 			,user_no ";
+			query += " 			,user_no uno ";
+			query += " 			,ur.id id ";
+			query += " 			,ur.password password ";
+			query += " 			,ur.name name ";
 			query += " from board bd, users ur ";
 			query += " where bd.user_no = ur.no ";
 			query += " order by regDate desc ";
-			
+
 			System.out.println(query + " 리스트 작성중");
 
 //			문자열 쿼리문으로 만들기
@@ -97,14 +98,16 @@ public class BoardDao {
 				String content = rs.getString("content");
 				int hit = rs.getInt("hit");
 				String regDate = rs.getString("regDate");
-				int userNo = rs.getInt("user_no");
-				String uname = rs.getString("uname");
+				int uno = rs.getInt("uno");
+				String id = rs.getString("id");
+				String password = rs.getString("password");
+				String name = rs.getString("name");
 				
 				//컨텐츠 공백 띄어쓰기 입출력 개선
 				content = content.replace(" ", "&nbsp;");
 				content = content.replace("\n", "<br>");
 
-				BoardVo boardVo = new BoardVo(bno, title, content, hit, regDate, userNo, uname);
+				BoardVo boardVo = new BoardVo(bno, title, content, hit, regDate, uno, id, password, name);
 				boardList.add(boardVo);
 
 			} // 한줄씩 꺼내서 변수에 담는다
@@ -134,9 +137,10 @@ public class BoardDao {
 			query += " 			,content ";
 			query += " 			,hit ";
 			query += " 			,to_char(reg_date, 'yyyy-mm-dd hh:mi:ss') regDate ";
-			query += " 			,user_no ";
-			query += " 			,ur.name uname ";
-			query += " 			,user_no ";
+			query += " 			,user_no uno ";
+			query += " 			,ur.id id ";
+			query += " 			,ur.password password ";
+			query += " 			,ur.name name ";
 			query += " from board bd, users ur ";
 			query += " where bd.user_no = ur.no ";
 			query += " and bd.no = ? ";
@@ -154,19 +158,22 @@ public class BoardDao {
 
 			// 4.결과처리 next는 자체적으로 불린 값을 가지고 있다 (rs.next() == true)
 			while (rs.next()) {
-				int no = rs.getInt("bno");
+				int bno = rs.getInt("bno");
 				String title = rs.getString("title");
 				String content = rs.getString("content");
 				int hit = rs.getInt("hit");
 				String regDate = rs.getString("regDate");
-				int userNo = rs.getInt("user_no");
-				String uname = rs.getString("uname");
+				int uno = rs.getInt("uno");
+				String id = rs.getString("id");
+				String password = rs.getString("password");
+				String name = rs.getString("name");
+				
 				
 				//컨텐츠 공백 띄어쓰기 입출력 개선
 				content = content.replace(" ", "&nbsp;");
 				content = content.replace("\n", "<br>");
 
-				boardVo = new BoardVo(no, title, content, hit, regDate, userNo, uname);
+				boardVo = new BoardVo(bno, title, content, hit, regDate, uno, id, password, name);
 				
 				System.out.println("boardVo 출력 "+boardVo);
 				
@@ -259,6 +266,41 @@ public class BoardDao {
 		
 	} // deleteContent 종료
 	
+	private void insertContent(BoardVo boardVo) {
+		
+		try {
+			getConnection();
+			
+			String query = "";
+			query += " INSERT INTO board  ";
+			query += " VALUES (seq_board_no.nextval, "; //식별번호(no시퀀스)
+			query += " ?, "; // 제목
+			query += " ?, "; // 내용
+			query += " ?, "; // 조회수
+			query += " sysdate, "; //등록일
+			query += " ?) "; // 작성자번호 uno user_no
+			
+			System.out.println(query + " 게시글 추가중");
+
+//		문자열 쿼리문으로 만들기
+			pstmt = conn.prepareStatement(query);
+
+//		바인딩		
+			pstmt.setString(1, boardVo.getTitle());
+			pstmt.setString(2, boardVo.getContent());
+			pstmt.setInt(3, boardVo.getHit());
+			pstmt.setInt(4, boardVo.getUno());
+
+			pstmt.executeUpdate(); // 쿼리문 실행
+
+			} catch (SQLException e) {
+				System.out.println("error:" + e);
+			}
+
+			// 5. 자원정리
+			close();	
+			
+	} // insertContent 종료 
 	
 	
 } // The end of BoardDao
