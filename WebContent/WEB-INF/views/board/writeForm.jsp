@@ -1,5 +1,16 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ page import="java.util.List"%>
+<%@ page import="com.javaex.vo.BoardVo"%>
+<%@ page import="com.javaex.vo.UserVo"%>
+
+<%
+List<BoardVo> boardList = (List<BoardVo>) request.getAttribute("bList");
+//BoardVo authUser = (BoardVo) session.getAttribute("authUser");
+UserVo authUser = (UserVo) session.getAttribute("authUser");
+%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,11 +25,11 @@
 	<div id="wrap">
 
 		<!-- //header -->
-		
+
 		<jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
 
 		<!-- //nav -->
-		
+
 		<div id="container" class="clearfix">
 			<div id="aside">
 				<h2>게시판</h2>
@@ -43,23 +54,24 @@
 					<div class="clear"></div>
 				</div>
 				<!-- //content-head -->
-	
+
 				<div id="board">
 					<div id="writeForm">
-						<form action="#" method="get">
+						<form action="/mysite/board" method="get">
 							<!-- 제목 -->
 							<div class="form-group">
-								<label class="form-text" for="txt-title">제목</label>
-								<input type="text" id="txt-title" name="" value="" placeholder="제목을 입력해 주세요">
+								<label class="form-text" for="txt-title">제목</label> <input type="text" id="txt-title" name="title" value="" placeholder="제목을 입력해 주세요">
 							</div>
-						
+
 							<!-- 내용 -->
 							<div class="form-group">
-								<textarea id="txt-content"></textarea>
+								<textarea id="txt-content" name="content"></textarea>
 							</div>
-							
+
 							<a id="btn_cancel" href="">취소</a>
-							<button id="btn_add" type="submit" >등록</button>
+							<button id="btn_add" type="submit">등록</button>
+							<input type="text" name="action" value="write">
+							<input type="text" name="uno" value="<%=authUser.getNo()%>">
 							
 						</form>
 						<!-- //form -->
@@ -75,9 +87,7 @@
 		<!-- //container  -->
 
 
-		<div id="footer">
-			Copyright ⓒ 2020 황일영. All right reserved
-		</div>
+		<div id="footer">Copyright ⓒ 2020 황일영. All right reserved</div>
 		<!-- //footer -->
 	</div>
 	<!-- //wrap -->

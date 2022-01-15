@@ -29,7 +29,13 @@ public class BoardVo {
 		this.password = password;
 		this.user_name = user_name;
 	}
-
+	
+	public BoardVo(int uno, String title, String content) {
+		this.uno = uno;
+		this.title = title;
+		this.content = content;
+	}
+	
 	public int getBno() {
 		return bno;
 	}

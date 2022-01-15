@@ -86,7 +86,11 @@ public class BoardController extends HttpServlet {
 			
 			BoardVo boardVo = new BoardVo(uno, title, content);
 			
-//			insertContent
+			BoardDao boardDao = new BoardDao();
+			
+			boardDao.insertContent(boardVo);
+			
+			WebUtil.redirect(request, response, "/mysite/board");
 			
 			
 		} else if ("modifyForm".equals(action)) {
