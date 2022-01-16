@@ -1,5 +1,22 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ page import="java.util.List"%>
+<%@ page import="com.javaex.vo.BoardVo"%>
+<%@ page import="com.javaex.vo.UserVo"%>
+
+<%
+//List<BoardVo> boardList = (List<BoardVo>) request.getAttribute("bList");
+//Action으로 넘어온 값을 변경시킨후 JSP 페이지로 받아오기
+
+//System.out.println("modifyForm boardList 출력 " + boardList);
+
+BoardVo boardVo = (BoardVo)request.getAttribute("bdVo");
+//BoardVo authUser = (BoardVo) session.getAttribute("authUser");
+
+System.out.println("modifyForm boardVo 출력 " + boardVo);
+%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -15,11 +32,11 @@
 	<div id="wrap">
 
 		<!-- //header -->
-		
+
 		<jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
 
 		<!-- //nav -->
-		
+
 		<div id="container" class="clearfix">
 			<div id="aside">
 				<h2>게시판</h2>
@@ -44,51 +61,43 @@
 					<div class="clear"></div>
 				</div>
 				<!-- //content-head -->
-	
+
 				<div id="board">
 					<div id="modifyForm">
-						<form action="#" method="get">
+						<form action="/mysite/board" method="get">
 							<!-- 작성자 -->
 							<div class="form-group">
-								<span class="form-text">작성자</span>
-								<span class="form-value">정우성</span>
+								<span class="form-text">작성자</span> <span class="form-value"><%=boardVo.getId()%> (<%=boardVo.getUser_name() %>@<%=boardVo.getUno() %>)</span>
 							</div>
-							
+
 							<!-- 조회수 -->
 							<div class="form-group">
-								<span class="form-text">조회수</span>
-								<span class="form-value">123</span>
+								<span class="form-text">조회수</span> <span class="form-value"><%=boardVo.getHit() %></span>
 							</div>
-							
+
 							<!-- 작성일 -->
 							<div class="form-group">
-								<span class="form-text">작성일</span>
-								<span class="form-value">2020-03-02</span>
+								<span class="form-text">작성일</span> <span class="form-value"><%=boardVo.getReg_date() %></span>
 							</div>
-							
+
 							<!-- 제목 -->
 							<div class="form-group">
-								<label class="form-text" for="txt-title">제목</label>
-								<input type="text" id="txt-title" name="" value="여기에는 글제목이 출력됩니다.">
+								<label class="form-text" for="txt-title">제목</label> <input type="text" id="txt-title" name="title" value="<%=boardVo.getTitle() %>">
 							</div>
-						
-							
-						
+
+
+
 							<!-- 내용 -->
 							<div class="form-group">
-								<textarea id="txt-content">여기에는 본문내용이 출력됩니다.
-	여기에는 본문내용이 출력됩니다.
-	여기에는 본문내용이 출력됩니다.
-	여기에는 본문내용이 출력됩니다.
-	여기에는 본문내용이 출력됩니다.
-	여기에는 본문내용이 출력됩니다.
-	여기에는 본문내용이 출력됩니다.
-	여기에는 본문내용이 출력됩니다.</textarea>
+								<textarea id="txt-content" name="content">
+									<%=boardVo.getContent() %>
+								</textarea>
 							</div>
-							
+
 							<a id="btn_cancel" href="">취소</a>
-							<button id="btn_modify" type="submit" >수정</button>
-							
+							<button id="btn_modify" type="submit">수정</button>
+							<input type="text" name="action" value="modify">
+							<input type="text" name="bno" value="<%=boardVo.getBno() %>">
 						</form>
 						<!-- //form -->
 					</div>
@@ -101,10 +110,8 @@
 		</div>
 		<!-- //container  -->
 
+		<c:import url="/WEB-INF/views/include/footer.jsp"></c:import>
 
-		<div id="footer">
-			Copyright ⓒ 2020 황일영. All right reserved
-		</div>
 		<!-- //footer -->
 	</div>
 	<!-- //wrap -->

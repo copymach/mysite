@@ -297,5 +297,40 @@ public class BoardDao {
 		close();
 
 	} // insertContent 종료
+	
+	public void modifyContent(BoardVo boardVo) {
 
+		try {
+			getConnection();
+
+			// 3. SQL문 준비 / 바인딩 / 실행
+			String query = "";
+			query += " UPDATE board ";
+			query += " set		title = ? ";
+			query += " 			,content = ? ";
+			query += " WHERE board.no = ? ";
+
+			System.out.println(query);
+
+//			문자열을 쿼리문으로 만들기
+			pstmt = conn.prepareStatement(query);
+
+//			바인딩
+			pstmt.setString(1, boardVo.getTitle());
+			pstmt.setString(2, boardVo.getContent());
+			pstmt.setInt(3, boardVo.getBno());
+
+//			실행
+			pstmt.executeUpdate();
+
+		} catch (SQLException e) {
+			System.out.println("error:" + e);
+		}
+
+		close();
+		
+	} // modifyContent 종료
+	
+	
+	
 } // The end of BoardDao

@@ -1,6 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-    
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ page import="java.util.List"%>
 <%@ page import="com.javaex.vo.BoardVo"%>
@@ -8,9 +7,9 @@
 
 <%
 //Action으로 넘어온 값을 변경시킨후 JSP 페이지로 받아오기
-BoardVo boardVo = (BoardVo)request.getAttribute("bdVo");
+BoardVo boardVo = (BoardVo) request.getAttribute("bdVo");
 
-System.out.println("boardVo 출력 "+boardVo);
+System.out.println("boardVo 출력 " + boardVo);
 %>
 
 <!DOCTYPE html>
@@ -28,7 +27,7 @@ System.out.println("boardVo 출력 "+boardVo);
 	<div id="wrap">
 
 		<!-- //header -->
-		
+
 		<c:import url="/WEB-INF/views/include/header.jsp"></c:import>
 
 		<!-- //nav -->
@@ -58,44 +57,49 @@ System.out.println("boardVo 출력 "+boardVo);
 					<div class="clear"></div>
 				</div>
 				<!-- //content-head -->
-	
+
 				<div id="board">
 					<div id="read">
 						<form action="#" method="get">
 							<!-- 작성자 -->
 							<div class="form-group">
-								<span class="form-text">작성자</span>
-								<span class="form-value"><%=boardVo.getId()%> Na:<%=boardVo.getUser_name()%> no:<%=boardVo.getUno() %> </span>
+								<span class="form-text">작성자</span> <span class="form-value"><%=boardVo.getId()%> Na:<%=boardVo.getUser_name()%> no:<%=boardVo.getUno()%> </span>
 							</div>
-							
+
 							<!-- 조회수 -->
 							<div class="form-group">
-								<span class="form-text">조회수</span>
-								<span class="form-value"><%=boardVo.getHit() %></span>
+								<span class="form-text">조회수</span> <span class="form-value"><%=boardVo.getHit()%></span>
 							</div>
-							
+
 							<!-- 작성일 -->
 							<div class="form-group">
-								<span class="form-text">작성일</span>
-								<span class="form-value"><%=boardVo.getReg_date() %></span>
+								<span class="form-text">작성일</span> <span class="form-value"><%=boardVo.getReg_date()%></span>
 							</div>
-							
+
 							<!-- 제목 -->
 							<div class="form-group">
-								<span class="form-text">제 목</span>
-								<span class="form-value"><%=boardVo.getTitle() %></span>
+								<span class="form-text">제 목</span> <span class="form-value"><%=boardVo.getTitle()%></span>
 							</div>
-						
+
 							<!-- 내용 -->
 							<div id="txt-content">
-								<span class="form-value" >
-								<%=boardVo.getContent() %>
+								<span class="form-value"> <%=boardVo.getContent()%>
 								</span>
 							</div>
-							
-							<a id="btn_modify" href="">수정</a>
-							<a id="btn_modify" href="">목록</a>
-							
+
+							<c:choose>
+								<c:when test="${empty sessionScope.authUser}">
+									<!-- 세션 영역에 값이 없으면 출력 -->
+									<a id="btn_modify" href="/mysite/board">목록</a>
+								</c:when>
+
+								<c:otherwise>
+									<!-- 로그인 성공시 출력 -->
+									<a id="btn_modify" href="/mysite/board?action=modifyForm&bno=<%=boardVo.getBno()%>">수정</a>
+									<a id="btn_modify" href="/mysite/board">목록</a>
+								</c:otherwise>
+							</c:choose>
+
 						</form>
 						<!-- //form -->
 					</div>
@@ -109,7 +113,7 @@ System.out.println("boardVo 출력 "+boardVo);
 		<!-- //container  -->
 
 		<c:import url="/WEB-INF/views/include/footer.jsp"></c:import>
-		
+
 		<!-- //footer -->
 	</div>
 	<!-- //wrap -->

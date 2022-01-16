@@ -8,13 +8,10 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import com.javaex.dao.BoardDao;
-import com.javaex.dao.UserDao;
 import com.javaex.util.WebUtil;
 import com.javaex.vo.BoardVo;
-import com.javaex.vo.UserVo;
 
 @WebServlet("/board")
 public class BoardController extends HttpServlet {
@@ -81,10 +78,11 @@ public class BoardController extends HttpServlet {
 			int uno = Integer.parseInt(request.getParameter("uno"));
 			String title = request.getParameter("title");
 			String content = request.getParameter("content");
+			String id = request.getParameter("id");
 			
 			System.out.println("uno 출력 "+uno);
 			
-			BoardVo boardVo = new BoardVo(uno, title, content);
+			BoardVo boardVo = new BoardVo(uno, title, content, id);
 			
 			BoardDao boardDao = new BoardDao();
 			
@@ -94,12 +92,47 @@ public class BoardController extends HttpServlet {
 			
 			
 		} else if ("modifyForm".equals(action)) {
-			
-		} else if ("modify".equals(action)) {
 			System.out.println(" board > modifyForm 시작 ");
 			
-		} else if ("dev".equals(action)) {
+			int bno = Integer.parseInt(request.getParameter("bno"));
+			
+//			게시물 불러오기
+			BoardVo boardVo = new BoardDao().readContent(bno); 
+			System.out.println("boardcontroller > boardVo 출력 "+boardVo);
+			
+			request.setAttribute("bdVo", boardVo);
+			System.out.println("정보 받아오기 "+bno);
+			
+			
+			WebUtil.forward(request, response, "/WEB-INF/views/board/modifyForm.jsp");
+			
+		} else if ("modify".equals(action)) {
 			System.out.println(" board > modify 시작 ");
+			
+			String bno = request.getParameter("bno");
+			String title = request.getParameter("title");
+			String content = request.getParameter("content");
+			
+			
+//			형변환
+			int boardNo = Integer.parseInt(request.getParameter("bno"));
+			System.out.println("수정할번호 "+boardNo);
+			
+//			vo로 만든다
+			BoardVo boardVo = new BoardVo(boardNo, title, content);
+					
+			System.out.println(boardVo);
+
+//			dao 메모리 올린다
+			BoardDao boardDao = new BoardDao();
+
+//			쿼리 처리
+			boardDao.modifyContent(boardVo);
+			
+//			리다이렉트 - 포워드 방식 에러 수정한 글로 복귀
+			WebUtil.redirect(request, response, "/mysite/board?action=read&no="+boardNo);
+			
+		} else if ("dev".equals(action)) {
 			
 		} else {
 			System.out.println("board 리스트");

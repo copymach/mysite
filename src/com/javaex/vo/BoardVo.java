@@ -30,11 +30,19 @@ public class BoardVo {
 		this.user_name = user_name;
 	}
 	
-	public BoardVo(int uno, String title, String content) {
+	public BoardVo(int uno, String title, String content, String id) {
 		this.uno = uno;
 		this.title = title;
 		this.content = content;
+		this.id = id;
 	}
+	
+	public BoardVo(int bno, String title, String content) {
+		this.bno = bno;
+		this.title = title;
+		this.content = content;
+	}
+	
 	
 	public int getBno() {
 		return bno;

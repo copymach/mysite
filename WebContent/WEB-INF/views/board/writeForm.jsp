@@ -72,7 +72,7 @@ UserVo authUser = (UserVo) session.getAttribute("authUser");
 							<button id="btn_add" type="submit">등록</button>
 							<input type="text" name="action" value="write">
 							<input type="text" name="uno" value="<%=authUser.getNo()%>">
-							
+							<input type="text" name="id" value="<%=authUser.getId()%>">
 						</form>
 						<!-- //form -->
 					</div>
