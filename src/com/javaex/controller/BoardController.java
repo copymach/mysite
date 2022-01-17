@@ -114,6 +114,8 @@ public class BoardController extends HttpServlet {
 			String content = request.getParameter("content");
 			
 			
+//			조건문으로 replace 넣기
+			
 //			형변환
 			int boardNo = Integer.parseInt(request.getParameter("bno"));
 			System.out.println("수정할번호 "+boardNo);

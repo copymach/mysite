@@ -55,6 +55,19 @@ VALUES (seq_board_no.nextval, '나도 왔습니다', '발도장 콩' , 9 , sysda
 INSERT INTO board 
 VALUES (seq_board_no.nextval, '날이 춥네요', '손이시려워 꽁' , 3 , sysdate, 1);
 
+INSERT INTO board 
+VALUES (seq_board_no.nextval, '공이 웃으면 뭔지 알아', '풋볼' , 7 , sysdate, 4);
+
+INSERT INTO board 
+VALUES (seq_board_no.nextval, '바나나가 웃으면 뭐게', '바나나킥' , 21 , sysdate, 5);
+
+INSERT INTO board 
+VALUES (seq_board_no.nextval, '누가 내 과자 가져갔음?', '가져간 사람 빨리 도로 가져오셈 ' , 15 , sysdate, 6);
+
+INSERT INTO board 
+VALUES (seq_board_no.nextval, '서울대입구역 맛집 아는 사람', '3번출구 8층 거기 돈가스 먹을만함 ㅇㅇ ' , 31 , sysdate, 7);
+
+
 
 -- 수정기능 (id n번)의 데이터를 변경
 UPDATE board
@@ -86,3 +99,67 @@ where bd.user_no = us.no;
 
 select * from board;
 select * from users;
+
+--게시판 목록용
+select  bd.no bno
+        ,title
+        ,content
+        ,hit
+        ,to_char(reg_date, 'yyyy-mm-dd hh:mi:ss') regDate 
+        ,user_no uno
+        ,ur.id id
+        ,ur.password password
+        ,ur.name name        
+from board bd, users ur
+where bd.user_no = ur.no
+order by regDate desc
+;
+
+
+--게시판 내용
+select  bd.no bno
+        ,title
+        ,content
+        ,hit
+        ,to_char(reg_date, 'yyyy-mm-dd hh:mi:ss') regDate 
+        ,user_no uno
+        ,ur.id id
+        ,ur.password password
+        ,ur.name name        
+from board bd, users ur
+where bd.user_no = ur.no
+and bd.no = 11;
+;
+-- hit 티베로 조회수 증가 
+--혹시 필드가 varchar 타입인 경우 TO_NUMBER로 캐스팅 하고
+--혹시 NOT NULL 허용일지도 모름으로 NVL로 NULL값을 0으로 치환
+UPDATE board 
+set HIT = NVL(HIT, 0) + 1
+WHERE board.no = 11;
+
+UPDATE board 
+set HIT = hit + 1
+WHERE board.no = 11;
+
+SELECT   * FROM board;
+SELECT   * FROM users;
+
+--삭제
+DELETE FROM board
+WHERE board.no = 14
+and board.user_no =4
+;
+
+--getBoardId
+select * FROM board
+where user_no = 4
+and no = 14;
+
+
+--게시물 수정 업데이트
+UPDATE board 
+set     title = '수정한 제목',
+        content = '수정한 내용'
+WHERE board.no = 11;
+
+select * from board;

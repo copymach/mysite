@@ -189,10 +189,9 @@ public class BoardDao {
 
 	public void hitCount(int index) {
 
-		BoardVo hitCount = null;
+//		BoardVo hitCount = null;
 
 		try {
-
 			getConnection();
 
 //			hit가 필드가 varchar 타입인 경우 TO_NUMBER로 캐스팅 
@@ -211,17 +210,18 @@ public class BoardDao {
 //			바인딩
 			pstmt.setInt(1, index);
 
-//			실행 rs = result select
-			rs = pstmt.executeQuery();
+//			실행 rs = 쿼리는 업데이트인데 rs 는 데이터 받기처리 
+			pstmt.executeUpdate();
+//			rs = pstmt.executeQuery();
 
 			// 4.결과처리 next는 자체적으로 불린 값을 가지고 있다 (rs.next() == true)
-			while (rs.next()) {
-				int hit = rs.getInt("hit");
+//			while (rs.next()) {
+//				int hit = rs.getInt("hit");
 
-				hitCount.setHit(hit);
-				System.out.println("boardVo 카운터 " + hitCount);
+//				hitCount.setHit(hit);
+//				System.out.println("boardVo 카운터 " + hitCount);
 
-			}
+//			}
 		} catch (SQLException e) {
 			System.out.println("error:" + e);
 		}
