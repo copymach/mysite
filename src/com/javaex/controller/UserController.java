@@ -116,7 +116,6 @@ public class UserController extends HttpServlet {
 				session.setAttribute("authUser", authVo);
 				
 				WebUtil.redirect(request, response, "/mysite/main");
-				
 			}
 			
 //			login 종료

@@ -70,7 +70,7 @@ public class BoardDao {
 			query += " 			,title ";
 			query += " 			,content ";
 			query += " 			,hit ";
-			query += " 			,to_char(reg_date, 'yyyy-mm-dd hh:mi:ss') regDate ";
+			query += " 			,to_char(reg_date, 'yy-mm-dd hh24:mi') regDate  ";
 			query += " 			,user_no uno ";
 			query += " 			,ur.id id ";
 			query += " 			,ur.password password ";
@@ -135,7 +135,7 @@ public class BoardDao {
 			query += " 			,title ";
 			query += " 			,content ";
 			query += " 			,hit ";
-			query += " 			,to_char(reg_date, 'yyyy-mm-dd hh:mi:ss') regDate ";
+			query += " 			,to_char(reg_date, 'yy-mm-dd hh24:mi') regDate  ";
 			query += " 			,user_no uno ";
 			query += " 			,ur.id id ";
 			query += " 			,ur.password password ";

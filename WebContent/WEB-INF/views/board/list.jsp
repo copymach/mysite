@@ -82,6 +82,8 @@ UserVo authUser = (UserVo) session.getAttribute("authUser");
 							</thead>
 
 							<%-- 나중에 포이치로 구현해보자 <c:forEach items="${boardList}" var="boardVo"> --%>
+							<%-- <c:forEach items="" var=""> --%>
+							
 							<%
 							for (int i = 0; i < boardList.size(); i++) {
 							%>
@@ -93,27 +95,22 @@ UserVo authUser = (UserVo) session.getAttribute("authUser");
 									<td><%=boardList.get(i).getId()%> [<%=boardList.get(i).getUser_name()%>§<%=boardList.get(i).getUno()%>]</td>
 									<td><%=boardList.get(i).getHit()%></td>
 									<td><%=boardList.get(i).getReg_date()%></td>
-									<td><c:choose>
-											<c:when test="${empty sessionScope.authUser}">
-												<!-- 세션 영역에 값이 없으면 로그인 실패, 로그인 전에 사용 -->
-												<ul>
-													<li>[ - ]</li>
-												</ul>
-											</c:when>
 
-											<c:otherwise>
-												<!-- 로그인 성공시 출력 -->
-												<ul>
-													<a href="/mysite/board?action=delete&bno=<%=boardList.get(i).getBno()%>&uno=<%=boardList.get(i).getUno()%>">[삭제]</a>
-												</ul>
-											</c:otherwise>
-										</c:choose></td>
+									<!-- 세션이 값이 비어있지 않다 -> 세션 값이 존재한다면 -->
+									<c:if test="${sessionScope.authUser.no eq requestScope.dbVo.id}">
+										<td>
+										<ul>
+												<a href="/mysite/board?action=delete&bno=<%=boardList.get(i).getBno()%>&uno=<%=boardList.get(i).getUno()%>">[삭제]</a>
+										</ul>
+										</td>
+									</c:if>
+
 								</tr>
 							</tbody>
 							<%
 							}
 							%>
-
+							<%-- </c:forEach> --%>
 
 						</table>
 

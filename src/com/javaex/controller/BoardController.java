@@ -8,10 +8,12 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.javaex.dao.BoardDao;
 import com.javaex.util.WebUtil;
 import com.javaex.vo.BoardVo;
+import com.javaex.vo.UserVo;
 
 @WebServlet("/board")
 public class BoardController extends HttpServlet {
@@ -93,6 +95,24 @@ public class BoardController extends HttpServlet {
 			
 		} else if ("modifyForm".equals(action)) {
 			System.out.println(" board > modifyForm 시작 ");
+			
+			HttpSession session = request.getSession();
+			UserVo authUser = (UserVo)session.getAttribute("authUser");
+			
+			
+			
+				if (authUser != null) { 
+					System.out.println("로그인했을때");
+					WebUtil.redirect(request, response, "/mysite/user?action=loginForm&result=fail");
+				} else { // 로그인 성공
+					System.out.println(" 3차 로그인 실패 ");
+				
+					session.setAttribute("authUser", authUser);
+					
+					WebUtil.redirect(request, response, "/mysite/main");
+				} 
+				
+				
 			
 			int bno = Integer.parseInt(request.getParameter("bno"));
 			
