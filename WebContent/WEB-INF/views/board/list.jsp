@@ -1,19 +1,20 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ page import="java.util.List"%>
-<%@ page import="com.javaex.vo.BoardVo"%>
-<%@ page import="com.javaex.vo.UserVo"%>
 
 <%
+//page import="java.util.List"
+//page import="com.javaex.vo.BoardVo"
+//page import="com.javaex.vo.UserVo"
+
 //System.out.println("Board 게시판 list.jsp 시작"); 동작확인
 
-List<BoardVo> boardList = (List<BoardVo>) request.getAttribute("bList");
+// List<BoardVo> boardList = (List<BoardVo>) request.getAttribute("bList");
 
 //System.out.println(boardList); 동작확인
 
 //BoardVo authUser = (BoardVo) session.getAttribute("authUser");
-UserVo authUser = (UserVo) session.getAttribute("authUser");
+// UserVo authUser = (UserVo) session.getAttribute("authUser");
 %>
 
 <!DOCTYPE html>
@@ -81,37 +82,32 @@ UserVo authUser = (UserVo) session.getAttribute("authUser");
 								</tr>
 							</thead>
 
-							<%-- 나중에 포이치로 구현해보자 <c:forEach items="${boardList}" var="boardVo"> --%>
-							<%-- <c:forEach items="" var=""> --%>
-							
-							<%
-							for (int i = 0; i < boardList.size(); i++) {
-							%>
 
-							<tbody>
-								<tr>
-									<td><%=boardList.get(i).getBno()%></td>
-									<td class="text-left"><a href="/mysite/board?action=read&no=<%=boardList.get(i).getBno()%> "> <%=boardList.get(i).getTitle()%></a></td>
-									<td><%=boardList.get(i).getId()%> [<%=boardList.get(i).getUser_name()%>§<%=boardList.get(i).getUno()%>]</td>
-									<td><%=boardList.get(i).getHit()%></td>
-									<td><%=boardList.get(i).getReg_date()%></td>
+							<c:forEach items="${requestScope.bList}" var="boardVo">
 
-									<!-- 세션이 값이 비어있지 않다 -> 세션 값이 존재한다면 -->
-									<c:if test="${sessionScope.authUser.no eq requestScope.dbVo.id}">
-										<td>
-										<ul>
-												<a href="/mysite/board?action=delete&bno=<%=boardList.get(i).getBno()%>&uno=<%=boardList.get(i).getUno()%>">[삭제]</a>
-										</ul>
-										</td>
-									</c:if>
+								<tbody>
+									<tr>
+										<td>${boardVo.bno}</td>
+										<td class="text-left"><a href="/mysite/board?action=read&no=${boardVo.bno}"> ${boardVo.title}</a></td>
+										<td>${boardVo.id}[${boardVo.user_name}§ ${boardVo.uno} ]</td>
+										<td>${hit}</td>
+										<td>${boardVo.reg_date}</td>
 
-								</tr>
-							</tbody>
-							<%
-							}
-							%>
-							<%-- </c:forEach> --%>
+										<!-- 세션이 값이 비어있지 않다 -> 세션 값이 존재한다면 -->
+										<%-- <cif test="${bl.userNo eq authUser.no}"> --%>
+										<c:if test="${authUser.no eq boardVo.uno}">
+											<td>
+												<ul>
+													<a href="/mysite/board?action=delete&bno=${boardVo.bno}&uno=${boardVo.uno}">[삭제]</a>
+												</ul>
+											</td>
+										</c:if>
 
+									</tr>
+								</tbody>
+
+								<%-- </c:forEach> --%>
+							</c:forEach>
 						</table>
 
 						<div id="paging">
@@ -134,18 +130,15 @@ UserVo authUser = (UserVo) session.getAttribute("authUser");
 							<div class="clear"></div>
 						</div>
 
-						<c:choose>
-							<c:when test="${empty sessionScope.authUser}">
-								<!-- 세션 영역에 값이 없으면 로그인 실패, 로그인 전에 사용 -->
-								&nbsp;
-							</c:when>
-							<c:otherwise>
-								<!-- 로그인 성공시 출력 -->
+
+						<!-- 세션에 값이 없는게 맞다면 => 로그인 상태 -->
+						<c:if test="${!empty sessionScope.authUser}">
+							<td>
 								<ul>
-									<a id="btn_write" href="/mysite/board?action=writeForm&uno=<%=authUser.getNo()%>">글쓰기</a>
+									<a id="btn_write" href="/mysite/board?action=writeForm&uno=${boardVo.uno}">글쓰기</a>
 								</ul>
-							</c:otherwise>
-						</c:choose>
+							</td>
+						</c:if>
 
 					</div>
 					<!-- //list -->
