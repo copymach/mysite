@@ -1,11 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ page import="java.util.List"%>
-<%@ page import="com.javaex.vo.BoardVo"%>
-<%@ page import="com.javaex.vo.UserVo"%>
 
 <%
+/*
+ page import="java.util.List"
+ page import="com.javaex.vo.BoardVo"
+ page import="com.javaex.vo.UserVo"
+
 //List<BoardVo> boardList = (List<BoardVo>) request.getAttribute("bList");
 //Action으로 넘어온 값을 변경시킨후 JSP 페이지로 받아오기
 
@@ -15,6 +16,7 @@ BoardVo boardVo = (BoardVo)request.getAttribute("bdVo");
 //BoardVo authUser = (BoardVo) session.getAttribute("authUser");
 
 System.out.println("modifyForm boardVo 출력 " + boardVo);
+*/
 %>
 
 <!DOCTYPE html>
@@ -33,7 +35,7 @@ System.out.println("modifyForm boardVo 출력 " + boardVo);
 
 		<!-- //header -->
 
-		<jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
+		<c:import url="/WEB-INF/views/include/header.jsp"></c:import>
 
 		<!-- //nav -->
 
@@ -67,22 +69,22 @@ System.out.println("modifyForm boardVo 출력 " + boardVo);
 						<form action="/mysite/board" method="get">
 							<!-- 작성자 -->
 							<div class="form-group">
-								<span class="form-text">작성자</span> <span class="form-value"><%=boardVo.getId()%> (<%=boardVo.getUser_name() %>@<%=boardVo.getUno() %>)</span>
+								<span class="form-text">작성자</span> <span class="form-value">${requestScope.boardVo.id } (${requestScope.boardVo.user_name}@ ${boardVo.uno})</span>
 							</div>
 
 							<!-- 조회수 -->
 							<div class="form-group">
-								<span class="form-text">조회수</span> <span class="form-value"><%=boardVo.getHit() %></span>
+								<span class="form-text">조회수</span> <span class="form-value">${requestScope.boardVo.hit }</span>
 							</div>
 
 							<!-- 작성일 -->
 							<div class="form-group">
-								<span class="form-text">작성일</span> <span class="form-value"><%=boardVo.getReg_date() %></span>
+								<span class="form-text">작성일</span> <span class="form-value">${requestScope.boardVo.reg_date }</span>
 							</div>
 
 							<!-- 제목 -->
 							<div class="form-group">
-								<label class="form-text" for="txt-title">제목</label> <input type="text" id="txt-title" name="title" value="<%=boardVo.getTitle() %>">
+								<label class="form-text" for="txt-title">제목</label> <input type="text" id="txt-title" name="title" value="${requestScope.boardVo.title }">
 							</div>
 
 
@@ -90,14 +92,14 @@ System.out.println("modifyForm boardVo 출력 " + boardVo);
 							<!-- 내용 -->
 							<div class="form-group">
 								<textarea id="txt-content" name="content">
-									<%=boardVo.getContent() %>
+									${requestScope.boardVo.content }
 								</textarea>
 							</div>
 
 							<a id="btn_cancel" href="">취소</a>
 							<button id="btn_modify" type="submit">수정</button>
 							<input type="text" name="action" value="modify">
-							<input type="text" name="bno" value="<%=boardVo.getBno() %>">
+							<input type="text" name="bno" value="${requestScope.boardVo.bno }">
 						</form>
 						<!-- //form -->
 					</div>

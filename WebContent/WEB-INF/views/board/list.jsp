@@ -1,5 +1,4 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <%
@@ -90,7 +89,7 @@
 										<td>${boardVo.bno}</td>
 										<td class="text-left"><a href="/mysite/board?action=read&no=${boardVo.bno}"> ${boardVo.title}</a></td>
 										<td>${boardVo.id}[${boardVo.user_name}§ ${boardVo.uno} ]</td>
-										<td>${hit}</td>
+										<td>${boardVo.hit}</td>
 										<td>${boardVo.reg_date}</td>
 
 										<!-- 세션이 값이 비어있지 않다 -> 세션 값이 존재한다면 -->

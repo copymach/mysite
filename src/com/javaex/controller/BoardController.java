@@ -45,7 +45,8 @@ public class BoardController extends HttpServlet {
 			System.out.println("boardcontroller > boardVo 출력 "+boardVo);
 			
 //			Action으로 넘어온 값을 변경시킨후 JSP 페이지로 넘겨주기
-			request.setAttribute("bdVo", boardVo);
+			request.setAttribute("boardVo", boardVo);
+//			request.setAttribute("bdVo", boardVo);
 			
 //			포워드
 			WebUtil.forward(request, response, "/WEB-INF/views/board/read.jsp");
@@ -96,33 +97,14 @@ public class BoardController extends HttpServlet {
 		} else if ("modifyForm".equals(action)) {
 			System.out.println(" board > modifyForm 시작 ");
 			
-			HttpSession session = request.getSession();
-			UserVo authUser = (UserVo)session.getAttribute("authUser");
-			
-			
-			
-				if (authUser != null) { 
-					System.out.println("로그인했을때");
-					WebUtil.redirect(request, response, "/mysite/user?action=loginForm&result=fail");
-				} else { // 로그인 성공
-					System.out.println(" 3차 로그인 실패 ");
-				
-					session.setAttribute("authUser", authUser);
-					
-					WebUtil.redirect(request, response, "/mysite/main");
-				} 
-				
-				
-			
 			int bno = Integer.parseInt(request.getParameter("bno"));
 			
-//			게시물 불러오기
-			BoardVo boardVo = new BoardDao().readContent(bno); 
-			System.out.println("boardcontroller > boardVo 출력 "+boardVo);
-			
-			request.setAttribute("bdVo", boardVo);
-			System.out.println("정보 받아오기 "+bno);
-			
+//			bno 번 게시물 불러오기
+			BoardDao boardDao = new BoardDao();
+			BoardVo boardVo = boardDao.readContent(bno);
+
+//			불러온 게시물을 어트리뷰트
+			request.setAttribute("boardVo", boardVo);
 			
 			WebUtil.forward(request, response, "/WEB-INF/views/board/modifyForm.jsp");
 			

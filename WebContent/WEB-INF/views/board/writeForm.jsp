@@ -1,21 +1,22 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ page import="java.util.List"%>
-<%@ page import="com.javaex.vo.BoardVo"%>
-<%@ page import="com.javaex.vo.UserVo"%>
 
 <%
+/*
+ page import="java.util.List"
+ page import="com.javaex.vo.BoardVo"
+ page import="com.javaex.vo.UserVo"
 List<BoardVo> boardList = (List<BoardVo>) request.getAttribute("bList");
 //BoardVo authUser = (BoardVo) session.getAttribute("authUser");
 UserVo authUser = (UserVo) session.getAttribute("authUser");
+*/
 %>
 
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>writeForm</title>
 <link href="/mysite/assets/css/mysite.css" rel="stylesheet" type="text/css">
 <link href="/mysite/assets/css/board.css" rel="stylesheet" type="text/css">
 
@@ -26,7 +27,7 @@ UserVo authUser = (UserVo) session.getAttribute("authUser");
 
 		<!-- //header -->
 
-		<jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
+		<c:import url="/WEB-INF/views/include/header.jsp"></c:import>
 
 		<!-- //nav -->
 
@@ -71,8 +72,9 @@ UserVo authUser = (UserVo) session.getAttribute("authUser");
 							<a id="btn_cancel" href="">취소</a>
 							<button id="btn_add" type="submit">등록</button>
 							<input type="text" name="action" value="write">
-							<input type="text" name="uno" value="<%=authUser.getNo()%>">
-							<input type="text" name="id" value="<%=authUser.getId()%>">
+							<input type="text" name="uno" value="${authUser.no }" >
+							<!-- authUser.getNo() authUser.getId() -->
+							<input type="text" name="id" value="${authUser.id }">
 						</form>
 						<!-- //form -->
 					</div>
@@ -86,8 +88,8 @@ UserVo authUser = (UserVo) session.getAttribute("authUser");
 		</div>
 		<!-- //container  -->
 
+		<c:import url="/WEB-INF/views/include/footer.jsp"></c:import>
 
-		<div id="footer">Copyright ⓒ 2020 황일영. All right reserved</div>
 		<!-- //footer -->
 	</div>
 	<!-- //wrap -->

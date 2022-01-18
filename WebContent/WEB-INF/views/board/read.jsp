@@ -1,15 +1,17 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ page import="java.util.List"%>
-<%@ page import="com.javaex.vo.BoardVo"%>
-<%@ page import="com.javaex.vo.UserVo"%>
 
 <%
+/*
+ page import="java.util.List"
+ page import="com.javaex.vo.BoardVo"
+ page import="com.javaex.vo.UserVo"
+
 //Action으로 넘어온 값을 변경시킨후 JSP 페이지로 받아오기
 BoardVo boardVo = (BoardVo) request.getAttribute("bdVo");
 
 System.out.println("boardVo 출력 " + boardVo);
+*/
 %>
 
 <!DOCTYPE html>
@@ -63,27 +65,27 @@ System.out.println("boardVo 출력 " + boardVo);
 						<form action="#" method="get">
 							<!-- 작성자 -->
 							<div class="form-group">
-								<span class="form-text">작성자</span> <span class="form-value"><%=boardVo.getId()%> Na:<%=boardVo.getUser_name()%> no:<%=boardVo.getUno()%> </span>
+								<span class="form-text">작성자</span> <span class="form-value">${boardVo.id} Na:${boardVo.user_name} no:${boardVo.uno } </span>
 							</div>
 
 							<!-- 조회수 -->
 							<div class="form-group">
-								<span class="form-text">조회수</span> <span class="form-value"><%=boardVo.getHit()%></span>
+								<span class="form-text">조회수</span> <span class="form-value">${boardVo.hit}</span>
 							</div>
 
 							<!-- 작성일 -->
 							<div class="form-group">
-								<span class="form-text">작성일</span> <span class="form-value"><%=boardVo.getReg_date()%></span>
+								<span class="form-text">작성일</span> <span class="form-value">${boardVo.reg_date}</span>
 							</div>
 
 							<!-- 제목 -->
 							<div class="form-group">
-								<span class="form-text">제 목</span> <span class="form-value"><%=boardVo.getTitle()%></span>
+								<span class="form-text">제 목</span> <span class="form-value">${boardVo.title}</span>
 							</div>
 
 							<!-- 내용 -->
 							<div id="txt-content">
-								<span class="form-value"> <%=boardVo.getContent()%>
+								<span class="form-value"> ${boardVo.content}
 								</span>
 							</div>
 
@@ -95,7 +97,7 @@ System.out.println("boardVo 출력 " + boardVo);
 
 								<c:otherwise>
 									<!-- 로그인 성공시 출력 -->
-									<a id="btn_modify" href="/mysite/board?action=modifyForm&bno=<%=boardVo.getBno()%>">수정</a>
+									<a id="btn_modify" href="/mysite/board?action=modifyForm&bno=${boardVo.bno }">수정</a>
 									<a id="btn_modify" href="/mysite/board">목록</a>
 								</c:otherwise>
 							</c:choose>
