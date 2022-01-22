@@ -1,10 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
-<%@ page import="com.javaex.vo.UserVo"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+
 <%
+/*
+page import="com.javaex.vo.UserVo"
+
 //addList 에서 받아온 no를 숫자로 바꿔준다
 String no = request.getParameter("no");
 UserVo authUser = (UserVo) session.getAttribute("authUser");
+*/
 %>
 
 
@@ -12,7 +17,7 @@ UserVo authUser = (UserVo) session.getAttribute("authUser");
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>게스트북 글 삭제</title>
 <link href="/mysite/assets/css/mysite.css" rel="stylesheet" type="text/css">
 <link href="/mysite/assets/css/guestbook.css" rel="stylesheet" type="text/css">
 
@@ -23,7 +28,7 @@ UserVo authUser = (UserVo) session.getAttribute("authUser");
 
 		<!-- //header -->
 
-		<jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
+		<c:import url="/WEB-INF/views/include/header.jsp"></c:import>
 
 		<!-- //nav -->
 
@@ -74,7 +79,7 @@ UserVo authUser = (UserVo) session.getAttribute("authUser");
 								</td>
 							</tr>
 						</table>
-						<input type='hidden' name="no" value="<%=no%>">
+						<input type='hidden' name="no" value="${param.no }">
 						<input type='hidden' name="action" value="delete">
 					</form>
 
@@ -86,7 +91,7 @@ UserVo authUser = (UserVo) session.getAttribute("authUser");
 		</div>
 		<!-- //container  -->
 
-		<jsp:include page="/WEB-INF/views/include/footer.jsp"></jsp:include>
+		<c:import url="/WEB-INF/views/include/footer.jsp"></c:import>
 
 		<!-- //footer -->
 
