@@ -64,7 +64,7 @@ UserVo authUser = (UserVo) session.getAttribute("authUser");
 				<!-- //content-head -->
 
 				<div id="guestbook">
-					<form action="/mysite/guest" method="get">
+					<form action="/mysite4/guestbook/write" method="get">	
 						<table id="guestAdd">
 							<colgroup>
 								<col style="width: 70px;">
@@ -93,7 +93,7 @@ UserVo authUser = (UserVo) session.getAttribute("authUser");
 						</table>
 						<!-- //guestWrite -->
 
-						<input type="hidden" name="action" value="write">
+						<!-- <input type="hidden" name="action" value="write"> -->
 
 					</form>
 
